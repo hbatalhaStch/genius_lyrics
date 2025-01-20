@@ -13,12 +13,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
-    steps:
-      - name: Enable Debug Logging
-        run: echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
-        
+    steps:        
       - uses: actions/checkout@v4
 
       # Note: This workflow uses the latest stable version of the Dart SDK.
@@ -42,4 +39,4 @@ jobs:
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       - name: Run tests
-        run: dart  --define=ACCESS_TOKEN=${{ secrets.ACCESS_TOKEN }} ./test/genius_lyrics_test.dart     
+        run: dart  --define=ACCESS_TOKEN=${{ secrets.ACCESS_TOKEN }} .\test\genius_lyrics_test.dart     
