@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:genius_lyrics/models/models.dart';
 import 'package:genius_lyrics/src/utils.dart';
 
@@ -27,14 +29,14 @@ class Song {
   String? _url;
   DateTime? _releaseDate;
   String? _releaseDateForDisplay;
-  Map<String, dynamic> _songInfo = {};
+  Map<String, dynamic> _raw = {};
 
   Song({required Map<String, dynamic> songInfo, required String lyrics}) {
-    _songInfo = songInfo;
+    _raw = songInfo;
     List<dynamic>? featureArtists = songInfo['featured_artists'];
     if (featureArtists != null) {
       for (var featuredArtist in featureArtists) {
-        _featuredArtists.add(Artist.fromJson(featuredArtist));
+        _featuredArtists.add(Artist.fromMap(featuredArtist));
       }
     }
     _artist = songInfo['primary_artist']['name'];
@@ -63,21 +65,42 @@ class Song {
   /// Returns name of the primary artist
   String? get artist => _artist;
 
+  /// Returns a list of [Artist] objects representing the artists who are featured in the song
   ///
-  ///list of [Artists] that apear's on the song
-  /// this propertie doesn't include all artist properties, some infos could be null
-  /// to get all artist info use [artist] function provide on genius class
+  /// Note that the [Artist] objects returned don't contain all the artist properties
   ///
+  ///The properties available are:
+  /// - [apiPath]
+  /// - [headerImageUrl]
+  /// - [id]
+  /// - [imageUrl]
+  /// - [isMemeVerified]
+  /// - [isVerified]
+  /// - [url]
+  /// - [name]
+  ///
+  /// To get the artists full info you could use the function [Genius.artist]
   List<Artist> get featuredArtists => _featuredArtists;
 
   String? get lyrics => _lyrics;
 
   void set lyrics(String? lyrics) => _lyrics = lyrics;
 
-  /// Return an [Artist] object
+  /// Returns an [Artist] object
   ///
-  /// Note that this [Artist] object does not contain any artist song
-  /// this propertie doesn't include all artist properties, some infos could be null
+  /// Note that the [Artist] object returned doesn't contain all the artist properties
+  ///
+  ///The properties available are:
+  /// - [apiPath]
+  /// - [headerImageUrl]
+  /// - [id]
+  /// - [imageUrl]
+  /// - [isMemeVerified]
+  /// - [isVerified]
+  /// - [url]
+  /// - [name]
+  ///
+  /// To get the artists full info you could use the function [Genius.artist]
   Artist? get primaryArtist => _primaryArtist;
 
   Stats? get stats => _stats;
@@ -117,7 +140,7 @@ class Song {
   String? get releaseDateForDisplay => _releaseDateForDisplay;
 
   /// Returns song data and this data have some fields that are not present in the [Song]
-  Map<String, dynamic> get toJson => _songInfo;
+  Map<String, dynamic> get raw => _raw;
 
   /// Save the lyrics of the song in a filename given by `fileName`
   ///
@@ -145,4 +168,32 @@ class Song {
     }
     return null;
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'artist': _artist,
+      'lyrics': _lyrics,
+      'primaryArtist': _primaryArtist?.toMap(),
+      'stats': _stats?.toMap(),
+      'annotationCount': _annotationCount,
+      'apiPath': _apiPath,
+      'fullTitle': _fullTitle,
+      'headerImageThumbnailUrl': _headerImageThumbnailUrl,
+      'headerImageUrl': _headerImageUrl,
+      'lyricsOwnerId': _lyricsOwnerId,
+      'lyricsState': _lyricsState,
+      'path': _path,
+      'pyongsCount': _pyongsCount,
+      'id': _id,
+      'songArtImageThumbnailUrl': _songArtImageThumbnailUrl,
+      'songArtImageUrl': _songArtImageUrl,
+      'title': _title,
+      'titleWithFeatured': _titleWithFeatured,
+      'url': _url,
+      'releaseDate': _releaseDate?.millisecondsSinceEpoch,
+      'releaseDateForDisplay': _releaseDateForDisplay,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }
