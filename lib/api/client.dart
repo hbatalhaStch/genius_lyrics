@@ -25,6 +25,7 @@ class HttpClient {
     } catch (e) {
       LineSplitter ls = new LineSplitter();
         List<String> lines = ls.convert(e.toString());
+      print('len: ${lines.length}');
         for (final line in lines) {
           print(line);
         }
