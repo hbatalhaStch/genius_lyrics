@@ -39,7 +39,8 @@ jobs:
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       - name: Run tests
-        run: dart  --define=GENIUS_TOKEN=${{ secrets.ACCESS_TOKEN }} ./test/genius_lyrics_test.dart #> output.log 2>&1
+        # run: dart  --define=GENIUS_TOKEN=${{ secrets.ACCESS_TOKEN }} ./test/genius_lyrics_test.dart #> output.log 2>&1
+        run: dart test > output.log 2>&1
 
       - name: Upload Test Output
         uses: actions/upload-artifact@v3
