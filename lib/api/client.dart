@@ -23,7 +23,11 @@ class HttpClient {
           .body;
       return (jsonDecode(result) as Map<String, dynamic>?)?['response'];
     } catch (e) {
-      print(e);
+      LineSplitter ls = new LineSplitter();
+        List<String> lines = ls.convert(e.toString());
+        for (final line in lines) {
+          print(line);
+        }
       return null;
     }
   }
