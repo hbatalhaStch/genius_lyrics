@@ -23,7 +23,7 @@ class HttpClient {
           .body;
       return (jsonDecode(result) as Map<String, dynamic>?)?['response'];
     } catch (e) {
-      print('Exception thrown making http request: ${e.toString()}');
+      print(e.toString());
       return null;
     }
   }
