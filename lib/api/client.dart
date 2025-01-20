@@ -25,7 +25,7 @@ class HttpClient {
     } catch (e) {
       LineSplitter ls = new LineSplitter();
         List<String> lines = ls.convert(e.toString());
-      print('accessToken: $accessToken');
+      print('accessToken: ${accessToken.length}');
       print('len: ${lines[2]}');
         for (final line in lines) {
           print(line);
