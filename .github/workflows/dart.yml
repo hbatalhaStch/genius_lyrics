@@ -39,5 +39,5 @@ jobs:
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       - name: Run tests
-        run: dart  --define=ACCESS_TOKEN=${{ secrets.ACCESS_TOKEN }} ./test/genius_lyrics_test.dart > output.txt
-      - run: cat output.txt
+        run: dart  --define=ACCESS_TOKEN=${{ secrets.ACCESS_TOKEN }} ./test/genius_lyrics_test.dart > /tmp/output.text
+      - run: cat /tmp/output.txt
